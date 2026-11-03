@@ -1,0 +1,42 @@
+name: Update submodule
+
+on:
+  repository_dispatch:
+    types: [submodule-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-submodule-test
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          submodules: true
+
+      - name: Update submodule-test to the latest main commit
+        run: git submodule update --remote --checkout -- submodule-test
+
+      - name: Create or update the pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          base: ${{ github.event.repository.default_branch }}
+          branch: chore/update-submodule-test
+          delete-branch: true
+          add-paths: submodule-test
+          commit-message: 'chore: update submodule'
+          author: 'efaa98 <email.for.ai.automation@gmail.com>'
+          committer: 'efaa98 <email.for.ai.automation@gmail.com>'
+          title: 'chore: update submodule'
+          body: 'update submodule'
