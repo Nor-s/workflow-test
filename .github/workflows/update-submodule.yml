@@ -40,10 +40,10 @@ jobs:
           branch: chore/update-submodule-test
           delete-branch: true
           add-paths: submodule-test
-          commit-message: 'chore: update submodule-test to ${{ steps.submodule.outputs.current }}'
+          commit-message: 'chore: update submodule'
           author: 'efaa98 <email.for.ai.automation@gmail.com>'
           committer: 'efaa98 <email.for.ai.automation@gmail.com>'
-          title: 'chore: update submodule-test'
+          title: 'chore: update submodule'
           body: |
             Updates `submodule-test` to the latest commit on `Nor-s/submodule-test/main`.
 
